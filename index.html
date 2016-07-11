@@ -50,13 +50,40 @@
     background: #00aaff;
     transform: rotateY(180deg);  /* ひっくり返ってくれる*/
   }
+  .open{
+    transform: rotateY(180deg); /*カードをひっくり返すにはカード全体を再度rotateYにする*/
+  }
   </style>
 </head>
 <body>
-  <div id="card">
-    <div id="card-front"></div>
-    <div id="card-back"></div>
+  <div id="card" class="open">
+    <div id="card-front">front</div>
+    <div id="card-back">back</div>
   </div>
   <div id="btn">NEXT</div>
+  <script>
+    (function(){//即時関数
+      'use strict';
+
+      //単語帳のデータを整備
+
+      var words = [
+        {'en':'I', 'ja':'わたし'},
+        {'en':'love', 'ja':'大好き'},
+        {'en':'workout', 'ja':'運動'},
+        {'en':'muscle', 'ja':'筋トレ'},
+        {'en':'procedure', 'ja':'手順'},
+      ]
+
+      var card = document.getElementById('card');
+      card.addEventlistener('click',function(){
+        flip();  //カードをひっくり返すflip関数
+      });
+
+      function flip(){
+        card.className =  card.className === '' ? 'open' : ''; // card.classNameがもしから文字だったらopen、そうでなかったらから文字に戻す
+      }
+    })();
+  </script>
 </body>
 </html>
