@@ -57,11 +57,11 @@
 </head>
 <body>
   <div id="card" class="open">
-    <div id="card-front">front</div>
-    <div id="card-back">back</div>
+    <div id="card-front"></div>
+    <div id="card-back"></div>
   </div>
   <div id="btn">NEXT</div>
-  <script>
+  <script type="text/javascript">
     (function(){//即時関数
       'use strict';
 
@@ -71,18 +71,53 @@
         {'en':'I', 'ja':'わたし'},
         {'en':'love', 'ja':'大好き'},
         {'en':'workout', 'ja':'運動'},
-        {'en':'muscle', 'ja':'筋トレ'},
+        {'en':'muscle', 'ja':'筋肉'},
         {'en':'procedure', 'ja':'手順'},
-      ]
+      ];
 
       var card = document.getElementById('card');
-      card.addEventlistener('click',function(){
+      var cardFront = document.getElementById('card-front');
+      var cardBack = document.getElementById('card-back');
+      var btn = document.getElementById('btn');
+
+      card.addEventListener('click',function(){
         flip();  //カードをひっくり返すflip関数
+      });
+
+      btn.addEventListener('click',function(){
+        next();
+      });
+
+      function next(){
+        if(card.className === 'open'){
+          card.addEventListener('transitionend',setCard);
+          flip();
+        }else {
+          setCard();
+        }
+      }
+
+      function setCard(){
+        var num = Math.floor(Math.random()* words.length);
+        cardFront.innerHTML = words[num]['en'];
+        cardBack.innerHTML = words[num]['ja'];
+        card.removeEventListener('transitionend',setCard);
+      }
+
+      setCard();
+
+      window.addEventListener('keyup',function(e){
+        if(e.keyCode === 70){
+          flip();
+        }else if (e.keyCode === 78) {
+          next();
+        }
       });
 
       function flip(){
         card.className =  card.className === '' ? 'open' : ''; // card.classNameがもしから文字だったらopen、そうでなかったらから文字に戻す
       }
+
     })();
   </script>
 </body>
